@@ -1,0 +1,85 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let convidados = [];
+
+app.get('/convidados', (req, res) => {
+  res.json(convidados);
+});
+
+app.post('/convidados', (req, res) => {
+  const { nome, email, dataNascimento, telefone } = req.body;
+
+  if (!nome) {
+    return res.status(400).json({ message: 'O nome é obrigatório.' });
+  }
+
+  const novoConvidado = {
+    nome,
+    email: email || '',
+    dataNascimento: dataNascimento || '',
+    telefone: telefone || '',
+    isConfirmed: false,
+  };
+
+  convidados.push(novoConvidado);
+
+  res.status(201).json(novoConvidado);
+});
+
+app.put('/convidados/:id', (req, res) => {
+  const { id } = req.params;
+  const { isConfirmed } = req.body;
+
+  const convidado = convidados.find((convidado) => convidado.id === id);
+
+  if (!convidado) {
+    return res.status(404).json({ message: 'Convidado não encontrado.' });
+  }
+
+  convidado.isConfirmed = isConfirmed;
+
+  res.json(convidado);
+});
+
+app.delete('/convidados/:id', (req, res) => {
+  const { id } = req.params;
+
+  const index = convidados.findIndex((convidado) => convidado.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: 'Convidado não encontrado.' });
+  }
+
+  convidados.splice(index, 1);
+
+  res.json({ message: 'Convidado removido com sucesso.' });
+});
+
+app.get('/convidados/confirmados', (req, res) => {
+  const confirmados = convidados.filter((convidado) => convidado.isConfirmed);
+
+  res.json(confirmados);
+});
+
+app.get('/convidados/nao-confirmados', (req, res) => {
+  const naoConfirmados = convidados.filter((convidado) => !convidado.isConfirmed);
+
+  res.json(naoConfirmados);
+});
+
+app.get('/convidados/total', (req, res) => {
+  const total = convidados.length;
+
+  res.json({ total });
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor ouvindo na porta ${PORT}`);
+});
