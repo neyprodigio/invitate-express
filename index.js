@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.post('/convidados', (req, res) => {
   }
 
   const novoConvidado = {
+    id: uuidv4(), // gera um novo ID exclusivo para cada novo convidado
     nome,
     email: email || '',
     dataNascimento: dataNascimento || '',
