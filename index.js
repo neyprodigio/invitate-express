@@ -31,6 +31,8 @@ app.post('/convidados', (req, res) => {
 
     convidados.push(novoConvidado);
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.status(201).json(novoConvidado);
 });
 
@@ -48,7 +50,9 @@ app.put('/convidados/:id', (req, res) => {
 
     // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
-    
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     // Envia a resposta com o cabeçalho configurado
     res.json(convidado);
 });
@@ -66,7 +70,9 @@ app.delete('/convidados/:id', (req, res) => {
 
     // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
-    
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     // Envia a resposta com o cabeçalho configurado
     res.json({ message: 'Convidado removido com sucesso.' });
 });
@@ -76,7 +82,9 @@ app.get('/convidados/confirmados', (req, res) => {
 
     // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
-    
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     // Envia a resposta com o cabeçalho configurado
     res.json(confirmados);
 });
@@ -84,12 +92,16 @@ app.get('/convidados/confirmados', (req, res) => {
 app.get('/convidados/nao-confirmados', (req, res) => {
     const naoConfirmados = convidados.filter((convidado) => !convidado.isConfirmed);
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.json(naoConfirmados);
 });
 
 app.get('/convidados/total', (req, res) => {
     const total = convidados.length;
     res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ total });
 });
 
