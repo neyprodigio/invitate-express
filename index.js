@@ -46,6 +46,10 @@ app.put('/convidados/:id', (req, res) => {
 
     convidado.isConfirmed = isConfirmed;
 
+    // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    
+    // Envia a resposta com o cabeçalho configurado
     res.json(convidado);
 });
 
@@ -60,24 +64,32 @@ app.delete('/convidados/:id', (req, res) => {
 
     convidados.splice(index, 1);
 
+    // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    
+    // Envia a resposta com o cabeçalho configurado
     res.json({ message: 'Convidado removido com sucesso.' });
 });
 
 app.get('/convidados/confirmados', (req, res) => {
     const confirmados = convidados.filter((convidado) => convidado.isConfirmed);
 
+    // Define o cabeçalho "Access-Control-Allow-Origin" antes de enviar a resposta
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    
+    // Envia a resposta com o cabeçalho configurado
     res.json(confirmados);
 });
 
 app.get('/convidados/nao-confirmados', (req, res) => {
     const naoConfirmados = convidados.filter((convidado) => !convidado.isConfirmed);
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
     res.json(naoConfirmados);
 });
 
 app.get('/convidados/total', (req, res) => {
     const total = convidados.length;
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
     res.json({ total });
 });
 
