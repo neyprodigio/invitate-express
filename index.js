@@ -30,7 +30,7 @@ app.post('/convidados', (req, res) => {
     };
 
     convidados.push(novoConvidado);
-
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
     res.status(201).json(novoConvidado);
 });
 
