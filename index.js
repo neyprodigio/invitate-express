@@ -9,79 +9,80 @@ app.use(bodyParser.json());
 let convidados = [];
 
 app.get('/convidados', (req, res) => {
-  res.json(convidados);
+    res.setHeader('Access-Control-Allow-Origin', 'https://react-convidar.vercel.app');
+    res.json(convidados);
 });
 
 app.post('/convidados', (req, res) => {
-  const { nome, email, dataNascimento, telefone } = req.body;
+    const { nome, email, dataNascimento, telefone } = req.body;
 
-  if (!nome) {
-    return res.status(400).json({ message: 'O nome é obrigatório.' });
-  }
+    if (!nome) {
+        return res.status(400).json({ message: 'O nome é obrigatório.' });
+    }
 
-  const novoConvidado = {
-    id: uuidv4(), // gera um novo ID exclusivo para cada novo convidado
-    nome,
-    email: email || '',
-    dataNascimento: dataNascimento || '',
-    telefone: telefone || '',
-    isConfirmed: false,
-  };
+    const novoConvidado = {
+        id: uuidv4(), // gera um novo ID exclusivo para cada novo convidado
+        nome,
+        email: email || '',
+        dataNascimento: dataNascimento || '',
+        telefone: telefone || '',
+        isConfirmed: false,
+    };
 
-  convidados.push(novoConvidado);
+    convidados.push(novoConvidado);
 
-  res.status(201).json(novoConvidado);
+    res.status(201).json(novoConvidado);
 });
 
 app.put('/convidados/:id', (req, res) => {
-  const { id } = req.params;
-  const { isConfirmed } = req.body;
+    const { id } = req.params;
+    const { isConfirmed } = req.body;
 
-  const convidado = convidados.find((convidado) => convidado.id === id);
+    const convidado = convidados.find((convidado) => convidado.id === id);
 
-  if (!convidado) {
-    return res.status(404).json({ message: 'Convidado não encontrado.' });
-  }
+    if (!convidado) {
+        return res.status(404).json({ message: 'Convidado não encontrado.' });
+    }
 
-  convidado.isConfirmed = isConfirmed;
+    convidado.isConfirmed = isConfirmed;
 
-  res.json(convidado);
+    res.json(convidado);
 });
 
 app.delete('/convidados/:id', (req, res) => {
-  const { id } = req.params;
+    const { id } = req.params;
 
-  const index = convidados.findIndex((convidado) => convidado.id === id);
+    const index = convidados.findIndex((convidado) => convidado.id === id);
 
-  if (index === -1) {
-    return res.status(404).json({ message: 'Convidado não encontrado.' });
-  }
+    if (index === -1) {
+        return res.status(404).json({ message: 'Convidado não encontrado.' });
+    }
 
-  convidados.splice(index, 1);
+    convidados.splice(index, 1);
 
-  res.json({ message: 'Convidado removido com sucesso.' });
+    res.json({ message: 'Convidado removido com sucesso.' });
 });
 
 app.get('/convidados/confirmados', (req, res) => {
-  const confirmados = convidados.filter((convidado) => convidado.isConfirmed);
+    const confirmados = convidados.filter((convidado) => convidado.isConfirmed);
 
-  res.json(confirmados);
+    res.json(confirmados);
 });
 
 app.get('/convidados/nao-confirmados', (req, res) => {
-  const naoConfirmados = convidados.filter((convidado) => !convidado.isConfirmed);
+    const naoConfirmados = convidados.filter((convidado) => !convidado.isConfirmed);
 
-  res.json(naoConfirmados);
+    res.json(naoConfirmados);
 });
 
 app.get('/convidados/total', (req, res) => {
-  const total = convidados.length;
+    const total = convidados.length;
 
-  res.json({ total });
+    res.json({ total });
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor ouvindo na porta ${PORT}`);
+    console.log(`Servidor ouvindo na porta ${PORT}`);
 });
